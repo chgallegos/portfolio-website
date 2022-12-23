@@ -371,6 +371,7 @@ input, select, textarea {
 
 		.row > .col-12 {
 			width: 70%;
+			height: 50%;
 		}
 
 		.row > .off-12 {
@@ -1710,7 +1711,6 @@ input, select, textarea {
 		margin: 0 auto;
 		max-width: calc(100% - 4.5em);
 		width: 45em;
-		height: 70%;
 	}
 
 		.container.xsmall {
