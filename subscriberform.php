@@ -1,68 +1,48 @@
 <?php
-if (isset($_POST['Email'])) {
-
-    // EDIT THE FOLLOWING TWO LINES:
-    $email_to = "chrisale89@gmail.com";
-    $email_subject = "Portfolio-Website Message!";
-
-    function problem($error)
+$action=$_REQUEST['action'];
+if ($action=="")    /* display the contact form */
     {
-        echo "We're sorry, but there were error(s) found with the form you submitted. ";
-        echo "These errors appear below.<br><br>";
-        echo $error . "<br><br>";
-        echo "Please go back and fix these errors.<br><br>";
-        die();
-    }
-
-    // validation expected data exists
-    if (
-        !isset($_POST['Name']) ||
-        !isset($_POST['Email']) ||
-        !isset($_POST['Message'])
-    ) {
-        problem('We are sorry, but there appears to be a problem with the form you submitted.');
-    }
-
-    $name = $_POST['Name']; // required
-    $email = $_POST['Email']; // required
-    $message = $_POST['Message']; // required
-
-    $error_message = "";
-    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
-
-    if (!preg_match($email_exp, $email)) {
-        $error_message .= 'The Email address you entered does not appear to be valid.<br>';
-    }
-
-    $string_exp = "/^[A-Za-z .'-]+$/";
-
-    if (!preg_match($string_exp, $name)) {
-        $error_message .= 'The Name you entered does not appear to be valid.<br>';
-    }
-
-    if (strlen($message) < 2) {
-        $error_message .= 'The Message you entered do not appear to be valid.<br>';
-    }
-
-    if (strlen($error_message) > 0) {
-        problem($error_message);
-    }
-
-    $email_message = "Form details below.\n\n";
-
-    function clean_string($string)
+    ?>
+    <form id="contact_form" action="subscriberform.php" method="POST" enctype="multipart/form-data">
+										<div class="col-6 col-12-xsmall">
+										  <label class="required" for="name">Your name:</label><br />
+										  <input id="name" class="input" name="name" type="text" value="" size="30" /><br />
+										  <span id="name_validation" class="error_message"></span>
+										</div>
+										<div class="col-6 col-12-xsmall">
+										  <label class="required" for="email">Your email:</label><br />
+										  <input id="email" class="input" name="email" type="text" value="" size="30" /><br />
+										  <span id="email_validation" class="error_message"></span>
+										</div>
+										<div class="col-12">
+										  <label class="required" for="message">Your message:</label><br />
+										  <textarea id="message" class="input" name="message" rows="7" cols="30"></textarea><br />
+										  <span id="message_validation" class="error_message"></span>
+										</div>
+										<div class="col-12">
+											<ul class="actions">
+												<li><input type="submit" class="primary" value="Send Message" /></li>
+												<li><input type="reset" value="Reset Form" /></li>
+											</ul>
+										</div>  
+										  <!-- <input id="submit_button" type="submit" value="Send email" /> -->
+									  </form>
+    <?php
+    } 
+else                /* send the submitted data */
     {
-        $bad = array("content-type", "bcc:", "to:", "cc:", "href");
-        return str_replace($bad, "", $string);
-    }
-
-    $email_message .= "Name: " . clean_string($name) . "\n";
-    $email_message .= "Email: " . clean_string($email) . "\n";
-    $email_message .= "Message: " . clean_string($message) . "\n";
-
-    // create email headers
-    $headers = 'From: ' . $email . "\r\n" .
-        'Reply-To: ' . $email . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-    @mail($email_to, $email_subject, $email_message, $headers);
+    $name=$_REQUEST['name'];
+    $email=$_REQUEST['email'];
+    $message=$_REQUEST['message'];
+    if (($name=="")||($email=="")||($message==""))
+        {
+        echo "All fields are required, please fill <a href=\"\">the form</a> again.";
+        }
+    else{        
+        $from="From: $name<$email>\r\nReturn-path: $email";
+        $subject="Message sent using your contact form";
+        mail("chrisale89@gmail.com", $subject, $message, $from);
+        echo "Email sent!";
+        }
+    }  
 ?>
