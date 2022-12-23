@@ -1,32 +1,25 @@
 <?php
-$field_name = $_POST['cf_name'];
-$field_email = $_POST['cf_email'];
-$field_message = $_POST['cf_message'];
+// Get data from form
+$name = $_POST['name'];
+$email= $_POST['email'];
+$message= $_POST['message'];
 
-$mail_to = 'chrisale89@gmail.com';
-$subject = 'Message from a site visitor '.$field_name;
+$to = "chrisale89@gmail.com";
+$subject = "E-mail from Portfolio site";
 
-$body_message = 'From: '.$field_name."\n";
-$body_message .= 'E-mail: '.$field_email."\n";
-$body_message .= 'Message: '.$field_message;
+// The following text will be sent
+// Name = user entered name
+// Email = user entered email
+// Message = user entered message
+$txt ="Name = ". $name . "\r\n Email = "
+	. $email . "\r\n Message =" . $message;
 
-$headers = 'From: '.$field_email."\r\n";
-$headers .= 'Reply-To: '.$field_email."\r\n";
-
-$mail_status = mail($mail_to, $subject, $body_message, $headers);
-
-if ($mail_status) { ?>
-	<script language="javascript" type="text/javascript">
-		alert('Thank you for the message. We will contact you shortly.');
-		window.location = 'index.html';
-	</script>
-<?php
+$headers = "From: noreply@demosite.com" . "\r\n" .
+			"CC: somebodyelse@example.com";
+if($email != NULL) {
+	mail($to, $subject, $txt, $headers);
 }
-else { ?>
-	<script language="javascript" type="text/javascript">
-		alert('Message failed. Please, send an email to chrisale89@gmail.com');
-		window.location = 'index.html';
-	</script>
-<?php
-}
+
+// Redirect to
+header("Location:last.html");
 ?>
