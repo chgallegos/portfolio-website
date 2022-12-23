@@ -1,3 +1,4 @@
+<style><?php include 'assets/css/main.css'; ?></style>
 <?php
 $action=$_REQUEST['action'];
 if ($action=="")    /* display the contact form */
@@ -46,3 +47,4 @@ else                /* send the submitted data */
         }
     }  
 ?>
+
